@@ -16,7 +16,7 @@ from tkinter.simpledialog import askinteger
 #-----------------------------------------------------------------------------------------------
 # VARIABLES
 #-----------------------------------------------------------------------------------------------
-TIEMPO_MUESTREO = 3
+TIEMPO_MUESTREO = 2
 #-----------------------------------------------------------------------------------------------
 # CONFIGURACIÓN
 #-----------------------------------------------------------------------------------------------
@@ -193,38 +193,46 @@ class MatrixNavigator:
             self.update_pointer()
 
     def muestreo(self, pos): # Funcionalidad básica de muestreo
-        command = ["airodump-ng", "wlan0", "--output-format", "csv", "--write", "output"]
-        #print("DEBUG | X:", pos[0]," - Y:", pos[1])
+        output_filename = f"output-{pos[0]}_{pos[1]}"
+        command = ["airodump-ng", "wlan0", "--output-format", "csv", "-w", output_filename]
+        output_filename = f"output-{pos[0]}_{pos[1]}-01.csv" # Actualiza la variable porque airodumo incluye -01
+        networks = {} # Parsear resultados
+        weakest_signals = {} # Diccionario para almacenar la señal más debilitada por BSSID
+
         process = subprocess.Popen(command)
         time.sleep(TIEMPO_MUESTREO) # Esperar N segundos antes de detener el proceso
         process.terminate() # Terminar el proceso
-        networks = {} # Parsear resultados
-        weakest_signals = {} # Diccionario para almacenar la señal más debilitada por BSSID
-        with open("output-01.csv", "r") as file:
+        process.wait() # Esperar a que el proceso termine completamente
+
+        with open(output_filename, "r") as file:
             lines = file.readlines()
+            #print("DEBUG | lines:",lines)
             for line in lines[2:]:  # Omitir las primeras dos líneas del encabezado
                 parts = line.strip().split(",")
-                #print("parts: ",parts)
+                #print("DEBUG | parts: ",parts)
                 if len(parts) >= 14:  # Verifica si hay suficientes campos
                     bssid = parts[0].strip()
                     power = parts[8].strip()
                     ssid = parts[13].strip()
                     if ssid != "SSID" and ssid != "":
                         networks[bssid] = ssid
+                        #print("DEBUG | networks[",bssid,"]:",ssid)
                     if bssid not in weakest_signals or weakest_signals[bssid] > power:
                         weakest_signals[bssid] = power
+                        #print("DEBUG | weakest_signals[",bssid,"] = ", weakest_signals[bssid],"Nuevo valor: ", power)
+        #file.close()
 
         # Tomar un registro de los SSID-BSSID para el post-procesado
         for bssid, ssid in networks.items():
             self.agregar_archivo("SSID.temp", f"{bssid}:{ssid}\n")
-        
+
         # Tomar una muestra de las redes WiFi disponibles en el punto x,y
         for bssid, power in weakest_signals.items():
             bssid_sanitized = bssid.replace(':', '')
             #print("bssid:",bssid," - power:",power)
             self.agregar_archivo(f"{bssid_sanitized}.txt", f"{pos[0]} {pos[1]} {power}\n")
         os.system("kill -9 $(ps -ef | grep airodump | awk '{print $2}') 2>/dev/null") # Matar el proceso airodump (en caso de no haberse cerrado bien)
-      
+
     # Ctrl+C
     signal.signal(signal.SIGINT,def_handler)
 
