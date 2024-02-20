@@ -36,7 +36,7 @@ def def_handler(sig, frame):# Función para manejar la señal SIGINT (Ctrl+C)
     os.system("iwconfig wlan0 mode managed 2>/dev/null") #Cambiar la placa Wi-Fi al modo managed
     os.system("ifconfig wlan0 up 2>/dev/null") #Encender nuevamente la interfaz de la placa Wi-Fi
     os.system("systemctl restart network-online.target") #Reiniciar el servicio
-    os.system("(cat SSID.temp | sort -fu >> SSID.txt)") # Eliminar las SSIDs repetidas
+    os.system("(cat SSID.temp | sort -fu >> SSID.json)") # Eliminar las SSIDs repetidas
     if os.path.exists("SSID.temp"):
         os.remove("SSID.temp") # Eliminar el archivo SSID.temp
     sys.exit(1)
@@ -217,19 +217,14 @@ class MatrixNavigator:
         # Tomar un registro de los SSID-BSSID para el post-procesado
         for bssid, ssid in networks.items():
             self.agregar_archivo("SSID.temp", f"{bssid}:{ssid}\n")
-        #with open("SSID.temp", "a") as file:
-        #        file.write(f"{bssid}:{ssid}\n")
-
+        
         # Tomar una muestra de las redes WiFi disponibles en el punto x,y
         for bssid, power in weakest_signals.items():
             bssid_sanitized = bssid.replace(':', '')
             #print("bssid:",bssid," - power:",power)
             self.agregar_archivo(f"{bssid_sanitized}.txt", f"{pos[0]} {pos[1]} {power}\n")
-            #with open(f"{bssid_sanitized}.txt", "a") as file:
-                #file.write(f"{pos[0]} {pos[1]} {power}\n")
         os.system("kill -9 $(ps -ef | grep airodump | awk '{print $2}') 2>/dev/null") # Matar el proceso airodump (en caso de no haberse cerrado bien)
-        #os.system("rm output-*.csv") # Eliminar los archivos output-*.csv
-
+      
     # Ctrl+C
     signal.signal(signal.SIGINT,def_handler)
 
