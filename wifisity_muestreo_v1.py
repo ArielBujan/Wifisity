@@ -224,7 +224,7 @@ class MatrixNavigator:
 
         # Tomar un registro de los SSID-BSSID para el post-procesado
         for bssid, ssid in networks.items():
-            self.agregar_archivo("SSID.temp", f"{bssid}:{ssid}\n")
+            self.agregar_archivo("SSID.temp", f"{bssid};{ssid}\n")
 
         # Tomar una muestra de las redes WiFi disponibles en el punto x,y
         for bssid, power in weakest_signals.items():
