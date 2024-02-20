@@ -48,8 +48,9 @@ class MatrixNavigator:
         self.master = master
         self.rows = rows
         self.cols = cols
-        self.pointer_pos = [rows-1, 1]  # Posición inicial en la esquina inferior izquierda
-        self.direction = "up"  # Dirección inicial hacia arriba
+        #self.pointer_pos = [rows-1, 1]  # Posición inicial en la esquina inferior izquierda (En caso de usar esta opción, es necesario adaptar el gráfico)
+        self.pointer_pos = [1, 1]  # Posición inicial
+        self.direction = "right"  # Dirección inicial hacia la derecha
         self.path = set()
         self.points = []  # Lista para almacenar los puntos adicionales
         self.cell_size = cell_size
