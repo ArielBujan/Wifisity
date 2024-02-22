@@ -26,8 +26,9 @@ Se generará un mapa de calor para cada red SSID, identificandolas como `{BSSID}
  A la salida del script de muestreo ejecutar el siguiente comando:
 `cat SSID.json | cut -d ";" -f 2 >> SSID.txt`
 
-Luego: python3 wifisity_spray.py SSID.txt -p 'PASSWORD' --hidden
-`python3 wifisity_spray.py SSID.txt -p '12345678' --hidden`
+Luego enviar el listado de redes a brute-forcear con sus respectivas contraseñas candidatas:
+`python3 wifisity_spray.py SSID.txt -p '12345678'`
+`python3 wifisity_spray.py SSID.txt -P passwords.txt`
 
 Los resultados se mostrarán en el archivo `resultados.txt` del siguiente modo:
 > - SSID_WiFi-XXXXXX:12345678:`[-] ~~~~~ Conexión fallida`
