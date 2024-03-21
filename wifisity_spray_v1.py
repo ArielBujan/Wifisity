@@ -1,4 +1,6 @@
 #########################################################################################################
+###########################           WIFISITY - SPRAY-PASSWORD           ###############################
+#########################################################################################################
 #                                   Desarrollado por Ariel Bujan                                        #
 #########################################################################################################
 # Por la presente se autoriza, de forma gratuita, a cualquier persona que obtenga una copia de este     #
@@ -13,7 +15,6 @@
 # RESPONSABILIDAD, YA SEA CONTRACTUAL, EXTRACONTRACTUAL O DE OTRO TIPO, DERIVADA DE, O EN RELACIÓN CON  #
 # EL MAL USO DEL SOFTWARE U OTRAS OPERACIONES RELACIONADAS CON EL SOFTWARE.                             #
 #########################################################################################################
-
 import subprocess
 import argparse
 
