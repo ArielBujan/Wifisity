@@ -1,10 +1,22 @@
-################################################################################################
-#################################           WIFISITY           #################################
-################################################################################################
-
-#-----------------------------------------------------------------------------------------------
+#########################################################################################################
+#####################################           WIFISITY           ######################################
+#########################################################################################################
+#                                   Desarrollado por Ariel Bujan                                        #
+#########################################################################################################
+# Por la presente se autoriza, de forma gratuita, a cualquier persona que obtenga una copia de este     #
+# software y de los archivos de documentación asociados, para tratar con el Software sin restricción    #
+# alguna, incluidos, sin limitación, los derechos de utilizar, copiar, modificar, fusionar, publicar,   #
+# y/o distribuir copias del Software, y a permitir que las personas a las que se facilite el Software,  #
+# con sujeción a las siguientes condiciones:                                                            #
+#########################################################################################################
+# EL SOFTWARE SE PROPORCIONA "AS IS", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O IMPLÍCITA, INCLUIDAS,      #
+# ENTRE OTRAS, LAS GARANTÍAS DE COMERCIABILIDAD, IDONEIDAD PARA UN FIN DETERMINADO Y NO INFRACCIÓN.     #
+# EN NINGÚN CASO LOS AUTORES NI LOS TITULARES DE LOS DERECHOS DE AUTOR SERÁN RESPONSABLES DE NINGUNA    #
+# RESPONSABILIDAD, YA SEA CONTRACTUAL, EXTRACONTRACTUAL O DE OTRO TIPO, DERIVADA DE, O EN RELACIÓN CON  #
+# EL MAL USO DEL SOFTWARE U OTRAS OPERACIONES RELACIONADAS CON EL SOFTWARE.                             #
+#########################################################################################################
 # LIBRERÍAS
-#-----------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------
 import subprocess
 import time
 import os
@@ -13,13 +25,11 @@ import signal
 import tkinter as tk
 from PIL import ImageGrab
 from tkinter.simpledialog import askinteger
-#-----------------------------------------------------------------------------------------------
-# VARIABLES
-#-----------------------------------------------------------------------------------------------
-TIEMPO_MUESTREO = 2
-#-----------------------------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------------------------------------
 # CONFIGURACIÓN
-#-----------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------
+TIEMPO_MUESTREO = 2
 def config(): # CONFIGURACIÓN - INICIO
     print("DEBUG | Configurando placa de red")
     os.system("ifconfig wlan0 down 2>/dev/null") #Apagar la interfaz de la placa Wi-Fi
@@ -40,9 +50,10 @@ def def_handler(sig, frame):# Función para manejar la señal SIGINT (Ctrl+C)
     if os.path.exists("SSID.temp"):
         os.remove("SSID.temp") # Eliminar el archivo SSID.temp
     sys.exit(1)
-#-----------------------------------------------------------------------------------------------
+    
+#--------------------------------------------------------------------------------------------------------
 # MAPEO
-#-----------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------------
 class MatrixNavigator:
     def __init__(self, master, rows, cols, cell_size):
         self.master = master
